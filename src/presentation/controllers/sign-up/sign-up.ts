@@ -29,13 +29,11 @@ export class SignUpController implements Controller {
         return badRequest(new InvalidParamError('passwordConfirmation'));
       }
 
-      await this.createUser.create({ name, email, password });
+      const user = await this.createUser.create({ name, email, password });
 
       return {
         statusCode: 201,
-        body: {
-          message: 'User created successfully',
-        },
+        body: user,
       };
     } catch (error) {
       return serverError();
