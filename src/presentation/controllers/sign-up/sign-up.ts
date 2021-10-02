@@ -7,7 +7,7 @@ import { badRequest, serverError } from '../../helpers/http-helper';
 export class SignUpController implements Controller {
   constructor(private readonly emailValidator: EmailValidator, private createUser: CreateUser) {}
 
-  handle(httpRequest: HttpRequest): HttpResponse {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation'];
 
@@ -29,7 +29,7 @@ export class SignUpController implements Controller {
         return badRequest(new InvalidParamError('passwordConfirmation'));
       }
 
-      this.createUser.create({ name, email, password });
+      await this.createUser.create({ name, email, password });
 
       return {
         statusCode: 201,
