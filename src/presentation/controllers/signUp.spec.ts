@@ -2,7 +2,7 @@ import { SignUpController } from './signUp';
 
 import { MissingParamError, ServerError, InvalidParamError } from '../errors';
 
-import { EmailValidator } from '../protocols/email-validator';
+import { EmailValidator } from '../protocols';
 
 describe('SignUp Controller', () => {
   test('Should return 400 if no name is provided', () => {
