@@ -6,7 +6,6 @@ import { MissingParamError } from '../errors/MissingParamError';
 import { InvalidParamError } from '../errors/InvalidParamError';
 
 import { badRequest, serverError } from '../helpers/httpHelper';
-import { ServerError } from '../errors/ServerError';
 
 export class SignUpController implements Controller {
   constructor(private readonly emailValidator: EmailValidator) {}
@@ -30,7 +29,7 @@ export class SignUpController implements Controller {
         statusCode: 200,
       };
     } catch (error) {
-      return serverError(new ServerError());
+      return serverError();
     }
   }
 }
