@@ -2,7 +2,7 @@ import { HttpRequest, HttpResponse, Controller, EmailValidator } from '../protoc
 
 import { MissingParamError, InvalidParamError } from '../errors';
 
-import { badRequest, serverError } from '../helpers/httpHelper';
+import { badRequest, serverError } from '../helpers/http-helper';
 import { CreateUser } from '../../domain/usecases/create-user';
 
 export class SignUpController implements Controller {

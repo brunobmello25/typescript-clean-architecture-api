@@ -1,6 +1,6 @@
 import { HttpResponse } from '../protocols/http';
 
-import { ServerError } from '../errors/ServerError';
+import { ServerError } from '../errors/server-error';
 
 export function badRequest(error: Error): HttpResponse {
   return {

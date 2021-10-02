@@ -1,10 +1,10 @@
-import { SignUpController } from './signUp';
+import { SignUpController } from './sign-up';
 
 import { MissingParamError, ServerError, InvalidParamError } from '../errors';
 
 import { EmailValidator } from '../protocols';
 
-import { User } from '../../domain/models/User';
+import { User } from '../../domain/models/user';
 import { CreateUser, CreateUserDTO } from '../../domain/usecases/create-user';
 
 describe('SignUp Controller', () => {
