@@ -11,8 +11,7 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
-    "import/resolver": {
-      "typescript": {}
-    }
+    "class-methods-use-this": "off",
+    "import/prefer-default-export": "off"
   }
 }
