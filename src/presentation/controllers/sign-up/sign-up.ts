@@ -2,7 +2,7 @@ import { HttpRequest, HttpResponse, Controller, EmailValidator, CreateUser } fro
 
 import { MissingParamError, InvalidParamError } from '../../errors';
 
-import { badRequest, serverError } from '../../helpers/http-helper';
+import { badRequest, created, serverError } from '../../helpers/http-helper';
 
 export class SignUpController implements Controller {
   constructor(private readonly emailValidator: EmailValidator, private createUser: CreateUser) {}
@@ -31,10 +31,7 @@ export class SignUpController implements Controller {
 
       const user = await this.createUser.create({ name, email, password });
 
-      return {
-        statusCode: 201,
-        body: user,
-      };
+      return created(user);
     } catch (error) {
       return serverError();
     }

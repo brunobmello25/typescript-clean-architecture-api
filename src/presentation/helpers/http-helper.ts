@@ -15,3 +15,10 @@ export function serverError(): HttpResponse {
     body: new ServerError(),
   };
 }
+
+export function created(record: unknown): HttpResponse {
+  return {
+    statusCode: 201,
+    body: record,
+  };
+}
