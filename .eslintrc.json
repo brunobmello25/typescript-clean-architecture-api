@@ -21,7 +21,8 @@
         "js": "never",
         "ts": "never"
       }
-    ]
+    ],
+    "no-restricted-syntax": "off"
   },
   "settings": {
     "import/resolver": {
