@@ -4,6 +4,9 @@ import { MissingParamError, ServerError, InvalidParamError } from '../errors';
 
 import { EmailValidator } from '../protocols';
 
+import { User } from '../../domain/models/User';
+import { CreateUser, CreateUserDTO } from '../../domain/usecases/create-user';
+
 describe('SignUp Controller', () => {
   test('Should return 400 if no name is provided', () => {
     const { sut } = makeSut();
@@ -144,21 +147,45 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'));
   });
+
+  test('should call CreateUser with correct values', () => {
+    const { sut, createUserStub } = makeSut();
+    const createUserSpy = jest.spyOn(createUserStub, 'create');
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+      },
+    };
+    sut.handle(httpRequest);
+
+    expect(createUserSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password',
+    });
+  });
 });
 
 interface SutTypes {
   sut: SignUpController;
   emailValidatorStub: EmailValidator;
+  createUserStub: CreateUser;
 }
 
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidatorStub();
+  const createUserStub = makeCreateUserStub();
 
-  const sut = new SignUpController(emailValidatorStub);
+  const sut = new SignUpController(emailValidatorStub, createUserStub);
 
   return {
     sut,
     emailValidatorStub,
+    createUserStub,
   };
 };
 
@@ -170,4 +197,21 @@ const makeEmailValidatorStub = (): EmailValidator => {
   }
 
   return new EmailValidatorStub();
+};
+
+const makeCreateUserStub = (): CreateUser => {
+  class CreateUserStub implements CreateUser {
+    create(data: CreateUserDTO): User {
+      const fakerUser = {
+        id: 'valid_id',
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      };
+
+      return fakerUser;
+    }
+  }
+
+  return new CreateUserStub();
 };
