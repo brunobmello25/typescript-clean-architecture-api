@@ -3,9 +3,10 @@ import { HttpRequest, HttpResponse, Controller, EmailValidator } from '../protoc
 import { MissingParamError, InvalidParamError } from '../errors';
 
 import { badRequest, serverError } from '../helpers/httpHelper';
+import { CreateUser } from '../../domain/usecases/create-user';
 
 export class SignUpController implements Controller {
-  constructor(private readonly emailValidator: EmailValidator) {}
+  constructor(private readonly emailValidator: EmailValidator, private createUser: CreateUser) {}
 
   handle(httpRequest: HttpRequest): HttpResponse {
     try {
@@ -17,7 +18,7 @@ export class SignUpController implements Controller {
         }
       }
 
-      const { email, password, passwordConfirmation } = httpRequest.body;
+      const { name, email, password, passwordConfirmation } = httpRequest.body;
 
       const isEmailValid = this.emailValidator.isValid(email);
 
@@ -29,9 +30,13 @@ export class SignUpController implements Controller {
         return badRequest(new InvalidParamError('passwordConfirmation'));
       }
 
+      this.createUser.create({ name, email, password });
+
       return {
-        body: null,
-        statusCode: 200,
+        statusCode: 201,
+        body: {
+          message: 'User created successfully',
+        },
       };
     } catch (error) {
       return serverError();
