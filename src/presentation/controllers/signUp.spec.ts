@@ -109,13 +109,13 @@ describe('SignUp Controller', () => {
   });
 });
 
-class EmailValidatorStub implements EmailValidator {
-  isValid(_email: string): boolean {
-    return true;
-  }
-}
-
 const makeSut = (): SutTypes => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid(_email: string): boolean {
+      return true;
+    }
+  }
+
   const emailValidatorStub = new EmailValidatorStub();
 
   const sut = new SignUpController(emailValidatorStub);
