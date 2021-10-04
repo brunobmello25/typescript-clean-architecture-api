@@ -1,6 +1,4 @@
-import { User } from '../../../domain/models/user';
-import { CreateUser, CreateUserDTO } from '../../../domain/usecases/create-user';
-import { Encrypter } from '../../protocols/encrypter';
+import { CreateUser, CreateUserDTO, Encrypter, User } from './db-create-user-protocols';
 
 export class DbCreateUser implements CreateUser {
   constructor(private readonly encrypter: Encrypter) {}

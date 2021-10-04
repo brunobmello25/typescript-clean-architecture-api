@@ -1,4 +1,4 @@
-import { Encrypter } from '../../protocols/encrypter';
+import { Encrypter } from './db-create-user-protocols';
 import { DbCreateUser } from './db-create-user';
 
 describe('DBCreateUser UseCase', () => {
