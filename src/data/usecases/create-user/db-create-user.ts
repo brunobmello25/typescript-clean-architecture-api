@@ -6,13 +6,13 @@ export class DbCreateUser implements CreateUser {
   async create({ name, email, password }: CreateUserDTO): Promise<User> {
     const encryptedPassword = await this.encrypter.encrypt(password);
 
-    await this.createUserRepository.create({ name, email, password: encryptedPassword });
+    const createUser = await this.createUserRepository.create({ name, email, password: encryptedPassword });
 
     return {
-      id: 'valid_id',
-      name: 'valid_name',
-      email: 'valid_email@email.com',
-      password: 'hashed_password',
+      id: createUser.id,
+      name: createUser.name,
+      email: createUser.email,
+      password: createUser.password,
     };
   }
 }
