@@ -43,15 +43,8 @@ interface SutTypes {
 }
 
 function makeSut(): SutTypes {
-  class EncrypterStub implements Encrypter {
-    async encrypt(_value: string): Promise<string> {
-      return 'hashed_password';
-    }
-  }
-
   const createUserRepositoryStub = makeCreateUserRepositoryStub();
-
-  const encrypterStub = new EncrypterStub();
+  const encrypterStub = makeEncrypterStub();
 
   const sut = new DbCreateUser(encrypterStub, createUserRepositoryStub);
 
@@ -60,6 +53,16 @@ function makeSut(): SutTypes {
     encrypterStub,
     createUserRepositoryStub,
   };
+}
+
+function makeEncrypterStub(): Encrypter {
+  class EncrypterStub implements Encrypter {
+    async encrypt(_value: string): Promise<string> {
+      return 'hashed_password';
+    }
+  }
+
+  return new EncrypterStub();
 }
 
 function makeCreateUserRepositoryStub(): CreateUserRepository {
