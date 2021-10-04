@@ -34,6 +34,17 @@ describe('DBCreateUser UseCase', () => {
       password: 'hashed_password',
     });
   });
+
+  test('should throw if CreateUserRepository throws', async () => {
+    const { sut, createUserRepositoryStub } = makeSut();
+    jest.spyOn(createUserRepositoryStub, 'create').mockImplementation(() => {
+      throw new Error();
+    });
+
+    const promise = sut.create({ name: 'valid_name', email: 'vallid_email@email.com', password: 'valid_password' });
+
+    await expect(promise).rejects.toThrow();
+  });
 });
 
 interface SutTypes {
