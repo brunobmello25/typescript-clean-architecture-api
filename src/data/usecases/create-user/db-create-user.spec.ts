@@ -45,6 +45,19 @@ describe('DBCreateUser UseCase', () => {
 
     await expect(promise).rejects.toThrow();
   });
+
+  test('should return a user on success', async () => {
+    const { sut } = makeSut();
+
+    const user = await sut.create({ name: 'valid_name', email: 'valid_email@email.com', password: 'valid_password' });
+
+    expect(user).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid_email@email.com',
+      password: 'hashed_password',
+    });
+  });
 });
 
 interface SutTypes {
