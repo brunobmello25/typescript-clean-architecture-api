@@ -1,4 +1,4 @@
-import { Encrypter } from './db-create-user-protocols';
+import { CreateUserRepository, CreateUserDTO, Encrypter, User } from './db-create-user-protocols';
 import { DbCreateUser } from './db-create-user';
 
 describe('DBCreateUser UseCase', () => {
@@ -21,11 +21,25 @@ describe('DBCreateUser UseCase', () => {
 
     await expect(promise).rejects.toThrow();
   });
+
+  test('should call CreateUserRepository with correct values', async () => {
+    const { sut, createUserRepositoryStub } = makeSut();
+    const createSpy = jest.spyOn(createUserRepositoryStub, 'create');
+
+    await sut.create({ name: 'valid_name', email: 'valid_email@email.com', password: 'valid_password' });
+
+    expect(createSpy).toHaveBeenCalledWith({
+      name: 'valid_name',
+      email: 'valid_email@email.com',
+      password: 'hashed_password',
+    });
+  });
 });
 
 interface SutTypes {
   sut: DbCreateUser;
   encrypterStub: Encrypter;
+  createUserRepositoryStub: CreateUserRepository;
 }
 
 function makeSut(): SutTypes {
@@ -35,12 +49,34 @@ function makeSut(): SutTypes {
     }
   }
 
+  const createUserRepositoryStub = makeCreateUserRepositoryStub();
+
   const encrypterStub = new EncrypterStub();
 
-  const sut = new DbCreateUser(encrypterStub);
+  const sut = new DbCreateUser(encrypterStub, createUserRepositoryStub);
 
   return {
     sut,
     encrypterStub,
+    createUserRepositoryStub,
   };
+}
+
+function makeCreateUserRepositoryStub(): CreateUserRepository {
+  class CreateUserRepositoryStub implements CreateUserRepository {
+    async create(_userData: CreateUserDTO): Promise<User> {
+      const fakeUser = {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@email.com',
+        password: 'hashed_password',
+      };
+
+      return fakeUser;
+    }
+  }
+
+  const createUserRepositoryStub = new CreateUserRepositoryStub();
+
+  return createUserRepositoryStub;
 }
