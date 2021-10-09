@@ -36,7 +36,8 @@
     "@typescript-eslint/no-useless-constructor": ["error"],
     "no-empty-function": "off",
     "@typescript-eslint/no-empty-function": "error",
-    "max-classes-per-file": "off"
+    "max-classes-per-file": "off",
+    "no-console": "off"
   },
   "settings": {
     "import/resolver": {
