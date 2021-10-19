@@ -37,7 +37,8 @@
     "no-empty-function": "off",
     "@typescript-eslint/no-empty-function": "error",
     "max-classes-per-file": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/*.spec.ts", "**/*.test.ts"] }]
   },
   "settings": {
     "import/resolver": {
