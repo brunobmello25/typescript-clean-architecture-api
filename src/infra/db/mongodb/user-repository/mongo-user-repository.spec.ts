@@ -10,6 +10,10 @@ describe('Mongo User Repository', () => {
     await MongoHelper.disconnect();
   });
 
+  beforeEach(async () => {
+    await MongoHelper.getCollection('users').deleteMany({});
+  });
+
   it('should return an user on success', async () => {
     const { sut } = makeSut();
 
