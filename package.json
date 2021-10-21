@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
-    "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:unit": "npm test -- --watch -c jest-unit.config.js",
-    "test:integration": "npm test -- --watch -c jest-integration.config.js",
-    "dev": "ts-node-dev --transpile-only --no-notify --ignore-watch node_modules src/main/server.ts"
+    "dev": "NODE_ENV=development ts-node-dev --inspect=9229 --transpile-only --no-notify --ignore-watch node_modules src/main/server.ts",
+    "test": "NODE_ENV=test jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test:verbose": "NODE_ENV=test jest --passWithNoTests --runInBand",
+    "test:unit": "NODE_ENV=test npm test -- --watch -c jest-unit.config.js",
+    "test:integration": "NODE_ENV=test npm test -- --watch -c jest-integration.config.js"
   },
   "keywords": [],
   "author": "",
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "fast-glob": "^3.2.7",
     "mongodb": "^4.1.3",
