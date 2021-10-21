@@ -1,4 +1,11 @@
+# Project infra
 node_modules
 dist
+
+# Testing
 coverage
 globalConfig.json
+
+# Environment
+.env*
+!.env.example
